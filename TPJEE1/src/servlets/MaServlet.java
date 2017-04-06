@@ -27,7 +27,17 @@ public class MaServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath()).append("\n Client adresse: ").append(request.getRemoteAddr());
+		response.getWriter().append("Served at: ").append(request.getContextPath())
+		.append("\n client adresse : ").append(request.getRemoteAddr())
+		.append("\n nom : ").append(request.getParameter("nom"))
+		.append("\n prenom : ").append(request.getParameter("prenom"))
+		.append("\n mdp : ").append(request.getParameter("mdp"));
+	
+		String[] lesLoisirs = request.getParameterValues("loisirs"); 
+		
+		for(String l : lesLoisirs){
+			response.getWriter().append(l+"\n");
+		}
 	}
 
 	/**
@@ -35,7 +45,10 @@ public class MaServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		response.getWriter().append("\n nom : ").append(request.getParameter("nom"));
+		response.getWriter().append("\n prenom : ").append(request.getParameter("prenom"));
+		response.getWriter().append("\n mdp : ").append(request.getParameter("mdp"));
+				
 	}
 
 }
