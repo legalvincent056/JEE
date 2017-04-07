@@ -7,17 +7,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import metier.Client;
+import service.ClientService;
+import service.IClientService;
+
 /**
  * Servlet implementation class MaServlet
  */
-@WebServlet("/MaServlet") //@WebServlet veut dire que lorsque j'utilise (/MaServlet) dans le navigateur, je fais appel à la class MaServlet
-public class MaServlet extends HttpServlet {
+@WebServlet("/MaServletSupprimer") //@WebServlet veut dire que lorsque j'utilise (/MaServlet) dans le navigateur, je fais appel à la class MaServlet
+public class MaServletSupprimer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MaServlet() {
+    public MaServletSupprimer() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,22 +45,22 @@ public class MaServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8"); //permet d'avoir des noms et prenoms avec des accents.
 		
 		//1- Récupérer les paramètres
-		String nom = request.getParameter("nom");
-		String prenom = request.getParameter("prenom");
-		String mdp = request.getParameter("mdp");
-		String[] lesLoisirs = request.getParameterValues("loisirs");
+		int id = Integer.parseInt(request.getParameter("id"));
+		
 		//2- Traitements avec couche service
+		
+		IClientService cs = new ClientService();
+		Client c = new Client(id);
+		
+		cs.supprimerClient(id);
 		
 		
 		//3- Préparation envoi
-		request.setAttribute("lenom", nom); //le premier "lenom" va être utilisé dans la JSP. nom représente la valeur récupérée plus haut
-		request.setAttribute("leprenom", prenom);
-		request.setAttribute("lemdp", mdp);
-		request.setAttribute("lesLoisirs", lesLoisirs);
+		request.setAttribute("lid", id); //le premier "lenom" va être utilisé dans la JSP. nom représente la valeur récupérée plus haut
 		
 		
 		//4- Envoi
-		request.getRequestDispatcher("/resultat.jsp").forward(request, response);
+		request.getRequestDispatcher("/resultatSupprimer.jsp").forward(request, response);
 		
 	}
 
