@@ -14,14 +14,14 @@ import service.IClientService;
 /**
  * Servlet implementation class MaServlet
  */
-@WebServlet("/MaServletSupprimer") //@WebServlet veut dire que lorsque j'utilise (/MaServlet) dans le navigateur, je fais appel à la class MaServlet
-public class MaServletSupprimer extends HttpServlet {
+@WebServlet("/MaServletMaj") //@WebServlet veut dire que lorsque j'utilise (/MaServlet) dans le navigateur, je fais appel à la class MaServlet
+public class MaServletMaj extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MaServletSupprimer() {
+    public MaServletMaj() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,20 +46,30 @@ public class MaServletSupprimer extends HttpServlet {
 		
 		//1- Récupérer les paramètres
 		int id = Integer.parseInt(request.getParameter("id"));
+		String nom = request.getParameter("nom");
+		String prenom = request.getParameter("prenom");
+		String yeux = request.getParameter("yeux");
+		int age = Integer.parseInt(request.getParameter("age"));
 		
 		//2- Traitements avec couche service
 		
 		IClientService cs = new ClientService();
 		
-		cs.supprimerClient(id);
+		
+		cs.modifierClient(id, nom, prenom, yeux, age);
 		
 		
 		//3- Préparation envoi
-		request.setAttribute("lid", id); //le premier "lenom" va être utilisé dans la JSP. nom représente la valeur récupérée plus haut
+		request.setAttribute("lid", id);
+		request.setAttribute("lenom", nom); //le premier "lenom" va être utilisé dans la JSP. nom représente la valeur récupérée plus haut
+		request.setAttribute("leprenom", prenom);
+		request.setAttribute("lesyeux", yeux);
+		request.setAttribute("lage", age);
+		
 		
 		
 		//4- Envoi
-		request.getRequestDispatcher("/resultatSupprimer.jsp").forward(request, response);
+		request.getRequestDispatcher("/resultatMaj.jsp").forward(request, response);
 		
 	}
 

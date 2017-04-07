@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +17,7 @@ import service.IClientService;
 /**
  * Servlet implementation class MaServlet
  */
-@WebServlet("/MaServletAjouter") //@WebServlet veut dire que lorsque j'utilise (/MaServlet) dans le navigateur, je fais appel à la class MaServlet
+@WebServlet("/MaServletLister") //@WebServlet veut dire que lorsque j'utilise (/MaServlet) dans le navigateur, je fais appel à la class MaServlet
 public class MaServletLister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -44,30 +47,22 @@ public class MaServletLister extends HttpServlet {
 		}*/
 		request.setCharacterEncoding("utf-8"); //permet d'avoir des noms et prenoms avec des accents.
 		
-		//1- Récupérer les paramètres
-		String nom = request.getParameter("nom");
-		String prenom = request.getParameter("prenom");
-		String yeux = request.getParameter("yeux");
-		int age = Integer.parseInt(request.getParameter("age"));
-		
+		//1- Récupérer les éléments de la bdd
 		//2- Traitements avec couche service
 		
 		IClientService cs = new ClientService();
-		Client c = new Client(nom,prenom,yeux,age);
+		List<Client> lesClients = new ArrayList<Client>();
+		lesClients = (List<Client>) cs.listerClients();
 		
-		cs.ajouterClient(c);
-		
-		
+				
 		//3- Préparation envoi
-		request.setAttribute("lenom", nom); //le premier "lenom" va être utilisé dans la JSP. nom représente la valeur récupérée plus haut
-		request.setAttribute("leprenom", prenom);
-		request.setAttribute("lesyeux", yeux);
-		request.setAttribute("lage", age);
+		request.setAttribute("lesClients", lesClients); //le premier "lenom" va être utilisé dans la JSP. nom représente la valeur récupérée plus haut
+		
 		
 		
 		
 		//4- Envoi
-		request.getRequestDispatcher("/resultatAjouter.jsp").forward(request, response);
+		request.getRequestDispatcher("/resultatLister.jsp").forward(request, response);
 		
 	}
 

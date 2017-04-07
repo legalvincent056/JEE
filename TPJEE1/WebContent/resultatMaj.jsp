@@ -6,11 +6,12 @@
 <head>
 <link rel="stylesheet" href="css/style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Ajouter un client</title>
+<title>Modifier un client</title>
 </head>
 <body>
 	
-	<p> Ajouter un client dont le nom sera : </p>
+	<p> Le client modifié sera : </p>
+	<p><%= request.getAttribute("lid") %></p>
 	<p><%= request.getAttribute("lenom") %></p>
 	<p><%= request.getAttribute("leprenom") %></p>
 	<p><%= request.getAttribute("lesyeux") %></p>

@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,14 +17,14 @@ import service.IClientService;
 /**
  * Servlet implementation class MaServlet
  */
-@WebServlet("/MaServletSupprimer") //@WebServlet veut dire que lorsque j'utilise (/MaServlet) dans le navigateur, je fais appel à la class MaServlet
-public class MaServletSupprimer extends HttpServlet {
+@WebServlet("/MaServletListerJSTL") //@WebServlet veut dire que lorsque j'utilise (/MaServlet) dans le navigateur, je fais appel à la class MaServlet
+public class MaServletListerJSTL extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MaServletSupprimer() {
+    public MaServletListerJSTL() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,22 +47,22 @@ public class MaServletSupprimer extends HttpServlet {
 		}*/
 		request.setCharacterEncoding("utf-8"); //permet d'avoir des noms et prenoms avec des accents.
 		
-		//1- Récupérer les paramètres
-		int id = Integer.parseInt(request.getParameter("id"));
-		
+		//1- Récupérer les éléments de la bdd
 		//2- Traitements avec couche service
 		
 		IClientService cs = new ClientService();
+		List<Client> lesClients = new ArrayList<Client>();
+		lesClients = (List<Client>) cs.listerClients();
 		
-		cs.supprimerClient(id);
-		
-		
+				
 		//3- Préparation envoi
-		request.setAttribute("lid", id); //le premier "lenom" va être utilisé dans la JSP. nom représente la valeur récupérée plus haut
+		request.setAttribute("lesClients", lesClients); //le premier "lenom" va être utilisé dans la JSP. nom représente la valeur récupérée plus haut
+		
+		
 		
 		
 		//4- Envoi
-		request.getRequestDispatcher("/resultatSupprimer.jsp").forward(request, response);
+		request.getRequestDispatcher("/resultatListerClientJSTL.jsp").forward(request, response);
 		
 	}
 
